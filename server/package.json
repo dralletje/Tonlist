@@ -1,0 +1,25 @@
+{
+  "name": "Tonlist",
+  "version": "0.0.0",
+  "description": "Anarchistic spotify radio",
+  "main": "index.js",
+  "dependencies": {
+    "bluebird": "~2.1.3",
+    "socket.io": "~1.0.6",
+    "spotify-web": "~1.2.0",
+    "lame": "~1.1.0",
+    "throttle": "~1.0.3",
+    "xml2js": "~0.4.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Anarchistic",
+    "spotify",
+    "radio"
+  ],
+  "author": "Michiel Dral",
+  "license": "MIT"
+}

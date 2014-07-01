@@ -1,0 +1,85 @@
+<html>
+<head>
+  <title>Tonlist!</title>
+
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+  <link href="style.css" rel="stylesheet" />
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="http://dral.eu:3040/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
+</head>
+<body>
+  <audio src="" autoplay>
+    <p>Your browser does not support the audio element.</p>
+  </audio>
+
+  <div class="container main">
+    <div class="jumbotron">
+      <div class="row">
+        <div class="col-md-8">
+          <img src="tonlist.png" style="width: 100%;" />
+          <p id="slogan">Swagfull tunin', yaww!</p>
+        </div>
+
+        <div class="col-md-4">
+          <b>#Nowplaying</b>
+          <p class="nowplaying">Nothing.. :-(</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row base">
+      <div class="col-md-5 searchbase">
+        <input class="form-control" id="search" placeholder="Zoeken!" type="text">
+        <div id="searchresults" class="numberlist">
+        </div>
+      </div>
+
+      <div class="col-md-5 numberlist" id="geschiedenis" style="padding-right: 0;">
+      </div>
+
+      <div class="col-md-2 controls" style="padding-left: 0;">
+        <button class="btn btn-danger" id="stop">
+          <i class="glyphicon glyphicon-pause"></i>
+        </button>
+        <button class="btn btn-primary" id="higher">
+          <i class="glyphicon glyphicon-volume-up"></i>
+        </button>
+        <button class="btn btn-primary" id="lower">
+          <i class="glyphicon glyphicon-volume-down"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="row" style="height: 50px;">
+    </div>
+
+    <div class="row base">
+      <div class="col-md-5 searchbase">
+        <input class="form-control" id="playlist" placeholder="Playlist URI!" type="text">
+        <div id="playlistresults" class="numberlist">
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <div id="chatspace">
+          <span>Hey, chat eens wat man!</span><br />
+        </div>
+        <input class="form-control" id="chat" placeholder="Chat!" type="text">
+      </div>
+
+      <div class="col-md-2 numberlist withoutbuttons" id="queue">
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="col-md-4">
+        <br />
+        <b class="luisteraars">Je bent de enige luisteraar.</b>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
