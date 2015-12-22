@@ -128,18 +128,19 @@ let Player = compose(
       <Audio volume={volume} src={`${URL}${time}.mp3`} autoPlay />
 
       <div>
+        {volume}
         <div onClick={() => setVolume(Math.min(volume + 0.1, 1))}>
-          HARDER
+          HARDER { volume === 1 && '(Nog harder heeft geen zin srry)'}
         </div>
         <div onClick={() => setVolume(Math.max(volume - 0.1, 0))}>
-          ZACHTER
+          ZACHTER { volume === 0 && '(Hij is al op z\'n zachts)'}
         </div>
       </div>
     </div>
   )
 })
 
-export default compose(
+let App = compose(
   observeProps(props$ => {
     let info$ =
       observableFromSocket(socket, 'info')
@@ -187,3 +188,11 @@ export default compose(
     </div>
   )
 })
+
+export default class extends React.Component {
+  render() {
+    return (
+      <App />
+    )
+  }
+}
