@@ -7,7 +7,7 @@ import {mapValues} from 'lodash'
 
 import header from './tonlist.png'
 
-let socket = io('http://localhost:3040')
+let socket = io('http://web.dral.eu:3040')
 
 let observableFromSocket = (socket, event) =>
   Rx.Observable.create(observer => {
