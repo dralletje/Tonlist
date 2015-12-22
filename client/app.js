@@ -7,7 +7,9 @@ import {mapValues} from 'lodash'
 
 import header from './tonlist.png'
 
-let socket = io('http://web.dral.eu:3040')
+let URL = 'http://web.dral.eu:3040/'
+
+let socket = io(URL)
 
 let observableFromSocket = (socket, event) =>
   Rx.Observable.create(observer => {
@@ -143,7 +145,7 @@ export default compose(
         )
       }
 
-      <audio src={`http://localhost:3040/${props.time}.mp3`} autoPlay>
+      <audio src={`${URL}${props.time}.mp3`} autoPlay>
         <p>Your browser does not support the audio element.</p>
       </audio>
 
