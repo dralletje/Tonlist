@@ -103,6 +103,41 @@ let Chat = compose(
   </div>
 ))
 
+class Audio extends React.Component {
+  componentDidUpdate() {
+    if (this.audio) {
+      this.audio.volume = this.props.volume
+    }
+  }
+
+  render() {
+    return (
+      <audio ref={(x) => this.audio = x} {...this.props}>
+        <p>Your browser does not support the audio element.</p>
+      </audio>
+    )
+  }
+}
+
+let Player = compose(
+  withState('volume', 'setVolume', 0.1)
+)(({volume, setVolume, time}) => {
+  console.log(volume)
+  return (
+    <div>
+      <Audio volume={volume} src={`${URL}${time}.mp3`} autoPlay />
+
+      <div>
+        <div onClick={() => setVolume(Math.min(volume + 0.1, 1))}>
+          HARDER
+        </div>
+        <div onClick={() => setVolume(Math.max(volume - 0.1, 0))}>
+          ZACHTER
+        </div>
+      </div>
+    </div>
+  )
+})
 
 export default compose(
   observeProps(props$ => {
@@ -145,9 +180,7 @@ export default compose(
         )
       }
 
-      <audio src={`${URL}${props.time}.mp3`} autoPlay>
-        <p>Your browser does not support the audio element.</p>
-      </audio>
+      <Player time={time} />
 
       <Search playSong={playSong} doSearch={search} />
       <Chat send={chat} />
