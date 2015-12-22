@@ -1,0 +1,8 @@
+:local(.clickable) {
+  text-decoration: underline;
+}
+
+:local(.clickable):hover {
+  cursor: pointer;
+  text-decoration: none;
+}

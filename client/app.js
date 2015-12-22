@@ -7,6 +7,8 @@ import {mapValues} from 'lodash'
 
 import header from './tonlist.png'
 
+import {clickable} from './style.css'
+
 let URL = 'http://web.dral.eu:3040/'
 
 let socket = io(URL)
@@ -59,11 +61,11 @@ let Search = compose(
 )(({query, setQuery, searchResults, playSong, doSearch}) => (
   <div>
     <input onChange={e => setQuery(e.target.value)} value={query} />
-    <button onClick={doSearch(query)}>Search</button>
+    <span className={clickable} onClick={doSearch(query)}>Search</span>
 
     <ul>
       { searchResults.map(result =>
-          <li key={result.nid} onClick={playSong(result)}>
+          <li className={clickable} key={result.nid} onClick={playSong(result)}>
             {result.title} - {result.artist}
           </li>
       )}
@@ -87,7 +89,9 @@ let Chat = compose(
 )(({query, setQuery, chat, send}) => (
   <div>
     <input onChange={e => setQuery(e.target.value)} value={query} />
-    <button onClick={() => send(query)() && setQuery('')}>CHAT!!!2</button>
+    <span className={clickable} onClick={() => send(query)() && setQuery('')}>
+      CHAT!!!2
+    </span>
 
     <Scroll
       style={{height: 200, overflow: 'auto'}}
@@ -129,10 +133,10 @@ let Player = compose(
 
       <div>
         {volume}
-        <div onClick={() => setVolume(Math.min(volume + 0.1, 1))}>
+        <div className={clickable} onClick={() => setVolume(Math.min(volume + 0.1, 1))}>
           HARDER { volume === 1 && '(Nog harder heeft geen zin srry)'}
         </div>
-        <div onClick={() => setVolume(Math.max(volume - 0.1, 0))}>
+        <div className={clickable} onClick={() => setVolume(Math.max(volume - 0.1, 0))}>
           ZACHTER { volume === 0 && '(Hij is al op z\'n zachts)'}
         </div>
       </div>

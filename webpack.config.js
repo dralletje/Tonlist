@@ -14,6 +14,7 @@ var config = {
         exclude: /(node_modules|bower_components)/,
         loader: 'babel?presets[]=react,presets[]=es2015'
       },
+      { test: /\.css$/, loader: "style-loader!css-loader" },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         loaders: [
