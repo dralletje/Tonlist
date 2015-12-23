@@ -6,3 +6,9 @@
   cursor: pointer;
   text-decoration: none;
 }
+
+:local(.box) {
+  margin: 20px;
+  padding: 20px;
+  border: black 1px solid;
+}

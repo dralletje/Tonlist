@@ -7,7 +7,20 @@ import {mapValues} from 'lodash'
 
 import header from './tonlist.png'
 
-import {clickable} from './style.css'
+import {clickable, box} from './style.css'
+
+let View = 'div'
+let Text = 'span'
+let TextInput = ({onTextChange, onSubmit}) =>
+  <input
+    type="text"
+    onChange={e => {
+      onTextChange && onTextChange(e.target.value)
+    }}
+    onKeyPress={e => {
+      e.which === 13 && onSubmit && onSubmit()
+    }}
+  />
 
 let URL = 'http://web.dral.eu:3040/'
 
@@ -44,7 +57,7 @@ class Scroll extends React.Component {
   }
 
   render() {
-    let Tag = this.props.tag || 'div'
+    let Tag = this.props.tag || View
     return (
       <Tag {...this.props} id={'scroll' + this.id} />
     )
@@ -59,18 +72,18 @@ let Search = compose(
   })),
   withState('query', 'setQuery', '')
 )(({query, setQuery, searchResults, playSong, doSearch}) => (
-  <div>
-    <input onChange={e => setQuery(e.target.value)} value={query} />
-    <span className={clickable} onClick={doSearch(query)}>Search</span>
+  <View>
+    <TextInput onTextChange={setQuery} value={query} onSubmit={doSearch(query)} />
+    <Text className={clickable} onClick={doSearch(query)}>Search</Text>
 
-    <ul>
+    <View>
       { searchResults.map(result =>
-          <li className={clickable} key={result.nid} onClick={playSong(result)}>
+          <View className={clickable} key={result.nid} onClick={playSong(result)}>
             {result.title} - {result.artist}
-          </li>
+          </View>
       )}
-    </ul>
-  </div>
+    </View>
+  </View>
 ))
 
 let messageId = 1
@@ -86,26 +99,31 @@ let Chat = compose(
       .map(xs => xs.slice().reverse()),
   })),
   withState('query', 'setQuery', '')
-)(({query, setQuery, chat, send}) => (
-  <div>
-    <input onChange={e => setQuery(e.target.value)} value={query} />
-    <span className={clickable} onClick={() => send(query)() && setQuery('')}>
-      CHAT!!!2
-    </span>
+)(({query, setQuery, chat, send}) => {
+  let submit = () => send(query)() && setQuery('')
+  return (
+    <View>
+      <TextInput onTextChange={setQuery} onSubmit={submit} value={query} />
+      <Text className={clickable} onClick={submit}>
+        CHAT!!!2
+      </Text>
 
-    <Scroll
-      style={{height: 200, overflow: 'auto'}}
-      id="chat"
-      scrollTo={(h,s,c) => h === s ? c : s}
-    >
-      { chat.map(message =>
-          <span key={message.id}>
-            <b>{message.username}:</b> {message.message}<br />
-          </span>
-      )}
-    </Scroll>
-  </div>
-))
+      <Scroll
+        style={{maxHeight: 200, overflow: 'auto'}}
+        id="chat"
+        scrollTo={(h,s,c) => h === s ? c : s}
+      >
+        { chat.map(message =>
+            <Text key={message.id}>
+              <Text style={{fontWeight: 'bold'}}>
+                {message.username}:
+              </Text> {message.message}<br />
+            </Text>
+        )}
+      </Scroll>
+    </View>
+  )
+})
 
 class Audio extends React.Component {
   componentDidUpdate() {
@@ -117,7 +135,7 @@ class Audio extends React.Component {
   render() {
     return (
       <audio ref={(x) => this.audio = x} {...this.props}>
-        <p>Your browser does not support the audio element.</p>
+        <Text>Your browser does not support the audio element.</Text>
       </audio>
     )
   }
@@ -128,19 +146,19 @@ let Player = compose(
 )(({volume, setVolume, time}) => {
   console.log(volume)
   return (
-    <div>
+    <View>
       <Audio volume={volume} src={`${URL}${time}.mp3`} autoPlay />
 
-      <div>
+      <View>
         {volume}
-        <div className={clickable} onClick={() => setVolume(Math.min(volume + 0.1, 1))}>
+        <View className={clickable} onClick={() => setVolume(Math.min(volume + 0.1, 1))}>
           HARDER { volume === 1 && '(Nog harder heeft geen zin srry)'}
-        </div>
-        <div className={clickable} onClick={() => setVolume(Math.max(volume - 0.1, 0))}>
+        </View>
+        <View className={clickable} onClick={() => setVolume(Math.max(volume - 0.1, 0))}>
           ZACHTER { volume === 0 && '(Hij is al op z\'n zachts)'}
-        </div>
-      </div>
-    </div>
+        </View>
+      </View>
+    </View>
   )
 })
 
@@ -169,27 +187,36 @@ let App = compose(
   let track = info && info.track
 
   return (
-    <div>
+    <View>
       <img src={header} />
 
-      { !track
-        ? (
-          <div>
-            Geen liedje op het moment :(
-          </div>
-        ) : (
-          <div>
-            <b>{track.artist}</b><br />
-            {track.title}
-          </div>
-        )
-      }
+      <View className={box}>
+        { !track
+          ? (
+            <View>
+              Geen liedje op het moment :(
+            </View>
+          ) : (
+            <View>
+              <b>{track.artist}</b><br />
+              {track.title}
+            </View>
+          )
+        }
+      </View>
 
-      <Player time={time} />
+      <View className={box}>
+        <Player time={time} />
+      </View>
 
-      <Search playSong={playSong} doSearch={search} />
-      <Chat send={chat} />
-    </div>
+      <View className={box}>
+        <Search playSong={playSong} doSearch={search} />
+      </View>
+
+      <View className={box}>
+        <Chat send={chat} />
+      </View>
+    </View>
   )
 })
 
