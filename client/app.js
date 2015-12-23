@@ -11,14 +11,15 @@ import {clickable, box} from './style.css'
 
 let View = 'div'
 let Text = 'span'
-let TextInput = ({onTextChange, onSubmit}) =>
+let TextInput = (props) =>
   <input
+    {...props}
     type="text"
     onChange={e => {
-      onTextChange && onTextChange(e.target.value)
+      onTextChange && props.onTextChange(e.target.value)
     }}
     onKeyPress={e => {
-      e.which === 13 && onSubmit && onSubmit()
+      e.which === 13 && props.onSubmit && props.onSubmit()
     }}
   />
 
