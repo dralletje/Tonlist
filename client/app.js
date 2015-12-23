@@ -16,7 +16,7 @@ let TextInput = (props) =>
     {...props}
     type="text"
     onChange={e => {
-      onTextChange && props.onTextChange(e.target.value)
+      props.onTextChange && props.onTextChange(e.target.value)
     }}
     onKeyPress={e => {
       e.which === 13 && props.onSubmit && props.onSubmit()
