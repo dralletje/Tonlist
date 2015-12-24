@@ -50,6 +50,7 @@ export default compose(
   let searchSocket = observableFromSocket(socket, 'search')
 
   let track = info && info.track
+  let audience = info && info.audience
 
   return (
     <View>
@@ -81,6 +82,15 @@ export default compose(
       <View className={box}>
         <Chat send={chat} messages$={chatSocket} />
       </View>
+
+      { audience &&
+        <View className={box}>
+          { audience === 1
+            ? `Je bent de enige luisteraar :')`
+            : `Er zijn ${audience} andere luisteraars`
+          }
+        </View>
+      }
     </View>
   )
 })
