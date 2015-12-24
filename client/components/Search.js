@@ -32,7 +32,7 @@ let Search = compose(
         .distinctUntilChanged()
         .flatMapLatest(x => x).startWith([]),
     }
-  }),
+  })
 )(({query, setQuery, searchResults, playSong, doSearch}) => (
   <View>
     <TextInput
