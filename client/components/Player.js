@@ -12,10 +12,10 @@ let Player = compose(
 
     <View>
       {volume}
-      <View className={clickable} onClick={() => setVolume(Math.min(volume + 0.1, 1))}>
+      <View className={clickable} onClick={() => setVolume(Math.min((((volume*10) + 1)/10), 1))}>
         HARDER { volume === 1 && '(Nog harder heeft geen zin srry)'}
       </View>
-      <View className={clickable} onClick={() => setVolume(Math.max(volume - 0.1, 0))}>
+      <View className={clickable} onClick={() => setVolume(Math.max((((volume*10) - 1)/10), 0))}>
         ZACHTER { volume === 0 && '(Hij is al op z\'n zachts)'}
       </View>
     </View>
