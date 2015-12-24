@@ -5,33 +5,40 @@ import {clickable} from '../style.css'
 import {Audio, View, Text, TextInput} from '../components'
 
 let Player = compose(
-  withState('volume', 'setVolume', 0.1)
-)(({volume, setVolume, time, URL}) => (
-  <View>
-    <Audio volume={volume} src={`${URL}${time}.mp3`} autoPlay />
+  withState('volume', 'setVolume', '10')
+)(({volume, setVolume, time, URL}) => {
+  let volumeFix = volume.replace(/,/g, '.')
 
-    <TextInput
-      style={{width: 30}}
-      onTextChange={text => {
-        let num = parseInt(text)
-        if (!Number.isNaN(num)) {
-          setVolume(num / 100)
-        } else {
-          setVolume(0)
-        }
-      }}
-      value={Math.ceil(volume * 100)}
-    />%
+  let numberVolume =
+    Number.isNaN(Number(volumeFix))
+    ? 0 : Number(volumeFix) / 100
 
+  let setVolumeX = num => setVolume(String(num))
+
+  return (
     <View>
-      <View className={clickable} onClick={() => setVolume(Math.min(volume + 0.1, 1))}>
-        HARDER { volume >= 1 && '(Nog harder heeft geen zin srry)'}
-      </View>
-      <View className={clickable} onClick={() => setVolume(Math.max(volume - 0.1, 0))}>
-        ZACHTER { volume <= 0 && '(Hij is al op z\'n zachts)'}
+      <Audio
+        volume={numberVolume}
+        src={`${URL}${time}.mp3`}
+        autoPlay
+      />
+
+      <TextInput
+        style={{width: 30}}
+        onTextChange={setVolume}
+        value={volume}
+      />%
+
+      <View>
+        <View className={clickable} onClick={() => setVolumeX(Math.min(numberVolume*100 + 10, 100))}>
+          HARDER { numberVolume >= 1 && '(Nog harder heeft geen zin srry)'}
+        </View>
+        <View className={clickable} onClick={() => setVolumeX(Math.max(numberVolume*100 - 10, 0))}>
+          ZACHTER { numberVolume <= 0 && '(Hij is al op z\'n zachts)'}
+        </View>
       </View>
     </View>
-  </View>
-))
+  )
+})
 
 export default Player
