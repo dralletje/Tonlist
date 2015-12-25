@@ -36,6 +36,14 @@ let Track = ({track}) => (
         <View>
           <b>{track.artist}</b><br />
           {track.title}
+          { track.albumArtRef[0] &&
+            <img
+              src={track.albumArtRef[0].url}
+              style={{
+                width: '100%',
+              }}
+            />
+          }
         </View>
       )
     }
