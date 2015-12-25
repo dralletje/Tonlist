@@ -3,6 +3,9 @@ import React from 'react'
 import {compose, withState} from 'recompose'
 import {observeProps} from 'rx-recompose'
 
+import {} from './css/bootstrap.css'
+import {} from './css/bootstrap.min.css'
+
 import {clickable} from '../style.css'
 import {Scroll, View, Text, TextInput} from '../components'
 
@@ -24,10 +27,10 @@ let Chat = compose(
   let submit = () => send(query)() && setQuery('')
   return (
     <View>
-      <TextInput onTextChange={setQuery} onSubmit={submit} value={query} />
-      <Text className={clickable} onClick={submit}>
-        CHAT!!!2
-      </Text>
+      <TextInput onTextChange={setQuery} onSubmit={submit} value={query} placeholder="Chat!"/>
+      <button type="submit" className={clickable} onClick={submit}>
+        <span className="glyphicon glyphicon-comment"></span>
+      </button>
 
       <Scroll
         style={{maxHeight: 200, overflow: 'auto'}}

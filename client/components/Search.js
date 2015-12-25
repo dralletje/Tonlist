@@ -12,7 +12,7 @@ let Search = compose(
     let setQuery = createEventHandler()
     let query$ = setQuery.share()
 
-    // Search for songs!
+    // Search for songs! // style={{backgroundColor: '#252323',borderColor: '#252323'}}
     query$
       .filter(x => x !== '')
       .throttle(300)
@@ -36,10 +36,12 @@ let Search = compose(
 )(({query, setQuery, searchResults, playSong, doSearch}) => (
   <View>
     <TextInput
+
       placeholder="Search for a song! :D"
       onTextChange={setQuery}
       value={query}
       onSubmit={doSearch(query)}
+
     />
 
     <View>

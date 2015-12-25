@@ -1,5 +1,5 @@
 :local(.clickable) {
-  text-decoration: underline;
+  text-decoration: bold;
 }
 
 :local(.clickable):hover {
@@ -11,4 +11,63 @@
   margin: 20px;
   padding: 20px;
   border: black 1px solid;
+}
+
+.header {
+  width: 70%;
+  height: 70%;
+  position: relative;
+  top: 5px;
+  left: -40px;
+}
+.text-primary {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 20px;
+  color: #8d8d8d;
+}
+
+body {
+  background-color: #252323;
+}
+
+.col-md-6 {
+  position: relative;
+  top: 15px;
+  left: -28px;
+  height: 250px;
+  border-style: solid;
+  border-color: #252323;
+  background-color: #383535;
+}
+
+.col-md-3 {
+  position: relative;
+  top: 15px;
+  left: -28px;
+  height: 250px;
+  border-style: solid;
+  border-color: #252323;
+  background-color: #383535;
+}
+
+.col-md-12 {
+  position: relative;
+  top: 20px;
+  height: 275px;
+  left: -28px;
+  border-style: solid;
+  border-color: #252323;
+  background-color: #383535;
+}
+
+.input-forms {
+  position: relative;
+  top: 10px;
+  left: -5px;
+}
+
+.listeners {
+  position: relative;
+  top: 80px;
+  left: -235px;
 }
