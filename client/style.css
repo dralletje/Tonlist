@@ -1,14 +1,31 @@
 :local(.clickable) {
-  text-decoration: underline;
+  text-decoration: bold;
 }
 
 :local(.clickable):hover {
   cursor: pointer;
   text-decoration: none;
+  color: #53dd6c;
 }
 
 :local(.box) {
   margin-top: 20px;
-  padding: 20px;
-  border: black 1px solid;
+  padding: 10px;
+  background-color: #383535;
+  color: #8d8989;
+}
+
+:local(.headerimage) {
+  width: 80%;
+  margin-top:15px;
+}
+
+body {
+  background-color: #252323;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+:local(.listeners) {
+  position: relative;
+  top: 30px;
 }
