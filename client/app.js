@@ -90,7 +90,7 @@ export default compose(
     <View className="container">
       <View className="row">
         <View className="col-md-9">
-          <img src={header} />
+          <img src={header} style={{width: '100%'}} />
         </View>
         <View className="col-md-3">
           { audience &&
