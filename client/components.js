@@ -24,9 +24,13 @@ export class Audio extends React.Component {
 
   render() {
     return (
-      <audio ref={(x) => this.audio = x} {...this.props}>
-        <Text>Your browser does not support the audio element.</Text>
-      </audio>
+      <div>
+        <audio ref={(x) => this.audio = x} {...this.props}>
+          <Text>Your browser does not support the audio element.</Text>
+        </audio>
+
+        <span onClick={() => this.audio.play()}>Klik hier als je op je mobiel zit xxx</span>
+      </div>
     )
   }
 }
