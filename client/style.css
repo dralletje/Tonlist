@@ -15,9 +15,8 @@
   color: #8d8989;
 }
 
-.header-image {
-  width: 65%;
-  height: 65%;
+:local(.headerimage) {
+  width: 80%;
   margin-top:15px;
 }
 
@@ -26,7 +25,7 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
 }
 
-.listeners {
+:local(.listeners) {
   position: relative;
   top: 30px;
 }

@@ -6,7 +6,7 @@ import {observeProps, createEventHandler} from 'rx-recompose'
 import 'bootstrap/dist/css/bootstrap.css'
 import header from './tonlist-volcano.png'
 
-import {clickable, box} from './style.css'
+import {clickable, box, headerimage, listeners} from './style.css'
 
 import {Scroll, Audio, View, Text, TextInput} from './components'
 import Search from './components/Search'
@@ -36,14 +36,16 @@ let Track = ({track}) => (
         <View>
           <b>{track.artist}</b><br />
           {track.title}
-          { track.albumArtRef[0] &&
-            <img
-              src={track.albumArtRef[0].url}
-              style={{
-                width: '80%',
-              }}
-            />
-          }
+          <View style= {{width:'100%'}}>
+            { track.albumArtRef[0] &&
+              <img
+                src={track.albumArtRef[0].url}
+                style={{
+                  width: '80%',
+                }}
+              />
+            }
+          </View>
         </View>
       )
     }
@@ -90,10 +92,10 @@ export default compose(
     <View className="container">
       <View className="row">
         <View className="col-md-9">
-          <img src={header} className="header-image"/>
+          <img src={header} className={headerimage}/>
         </View>
         <View className="col-md-3">
-          <View className="listeners">
+          <View className={listeners}>
           { audience &&
             <View className={box}>
               { audience === 1
