@@ -15,9 +15,10 @@ export let TextInput = (props) =>
   />
 
 export class Audio extends React.Component {
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    let nextProps = this.props
     if (this.audio) {
-      this.audio.volume = this.props.volume
+      this.audio.volume = nextProps.volume
     }
   }
 

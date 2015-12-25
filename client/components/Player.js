@@ -1,12 +1,13 @@
 import React from 'react'
-import {compose, withState} from 'recompose'
+import {compose, withState, mapProps} from 'recompose'
 
 import {clickable} from '../style.css'
 import {Audio, View, Text, TextInput} from '../components'
 
 let Player = compose(
-  withState('volume', 'setVolume', '10')
-)(({volume, setVolume, time, URL}) => {
+  withState('volume', 'setVolume', '10'),
+  withState('errorTag', 'setError', 0)
+)(({volume, setVolume, time, URL, setError, errorTag}) => {
   let volumeFix = volume.replace(/,/g, '.')
 
   let numberVolume =
@@ -19,7 +20,8 @@ let Player = compose(
     <View>
       <Audio
         volume={numberVolume}
-        src={`${URL}${time}.mp3`}
+        src={`${URL}${time}${errorTag.toString()}.mp3`}
+        onError={() => setError(errorTag + 1)}
         autoPlay
       />
 
