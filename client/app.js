@@ -3,6 +3,7 @@ import io from 'socket.io-client'
 import {mapProps, compose, withState} from 'recompose'
 import {observeProps, createEventHandler} from 'rx-recompose'
 
+import 'bootstrap/dist/css/bootstrap.css'
 import header from './tonlist.png'
 
 import {clickable, box} from './style.css'
@@ -23,6 +24,31 @@ let observableFromSocket = (socket, event) =>
 
     return () => socket.removeListener(listener)
   })
+
+let Track = ({track}) => (
+  <View>
+    { !track
+      ? (
+        <View>
+          Geen liedje op het moment :(
+        </View>
+      ) : (
+        <View>
+          <b>{track.artist}</b><br />
+          {track.title}
+        </View>
+      )
+    }
+  </View>
+)
+
+let Box = props => (
+  <View {...props}>
+    <View className={`${box}`}>
+      { props.children }
+    </View>
+  </View>
+)
 
 export default compose(
   observeProps(props$ => {
@@ -53,44 +79,42 @@ export default compose(
   let audience = info && info.audience
 
   return (
-    <View>
-      <img src={header} />
-
-      <View className={box}>
-        { !track
-          ? (
-            <View>
-              Geen liedje op het moment :(
+    <View className="container">
+      <View className="row">
+        <View className="col-md-9">
+          <img src={header} />
+        </View>
+        <View className="col-md-3">
+          { audience &&
+            <View className={box}>
+              { audience === 1
+                ? `Je bent de enige luisteraar :')`
+                : `Er zijn ${audience} andere luisteraars`
+              }
             </View>
-          ) : (
-            <View>
-              <b>{track.artist}</b><br />
-              {track.title}
-            </View>
-          )
-        }
-      </View>
-
-      <View className={box}>
-        <Player time={time} URL={URL} />
-      </View>
-
-      <View className={box}>
-        <Search playSong={playSong} doSearch={search} results$={searchSocket} />
-      </View>
-
-      <View className={box}>
-        <Chat send={chat} messages$={chatSocket} />
-      </View>
-
-      { audience &&
-        <View className={box}>
-          { audience === 1
-            ? `Je bent de enige luisteraar :')`
-            : `Er zijn ${audience} andere luisteraars`
           }
         </View>
-      }
+      </View>
+
+      <View className="row">
+        <Box className="col-md-6">
+          <Search playSong={playSong} doSearch={search} results$={searchSocket} />
+        </Box>
+
+        <Box className="col-md-3">
+          <Track track={track} />
+        </Box>
+
+        <Box className="col-md-3">
+          <Player time={time} URL={URL} />
+        </Box>
+      </View>
+
+      <View className="row">
+        <Box className="col-md-12">
+          <Chat send={chat} messages$={chatSocket} />
+        </Box>
+      </View>
     </View>
   )
 })

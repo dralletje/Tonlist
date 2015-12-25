@@ -23,6 +23,7 @@
     "babel-loader": "^6.2.0",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
+    "bootstrap": "^3.3.6",
     "emoji-random": "^0.1.2",
     "image-webpack-loader": "^1.6.2",
     "react": "^0.14.3",

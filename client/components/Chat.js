@@ -24,9 +24,17 @@ let Chat = compose(
   let submit = () => send(query)() && setQuery('')
   return (
     <View>
-      <TextInput onTextChange={setQuery} onSubmit={submit} value={query} />
+      <TextInput
+        onTextChange={setQuery}
+        onSubmit={submit}
+        value={query}
+        placeholder="Kappa!"
+        style={{
+          width: '100%',
+        }}
+      />
       <Text className={clickable} onClick={submit}>
-        CHAT!!!2
+        Druk gewoon op enter als je je bericht wilt sturen???!!!!
       </Text>
 
       <Scroll

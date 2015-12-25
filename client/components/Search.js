@@ -40,6 +40,9 @@ let Search = compose(
       onTextChange={setQuery}
       value={query}
       onSubmit={doSearch(query)}
+      style={{
+        width: '100%',
+      }}
     />
 
     <View>
