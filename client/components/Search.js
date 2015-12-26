@@ -28,9 +28,15 @@ let Search = compose(
       doSearch: props$.pluck('doSearch'),
       playSong: props$.pluck('playSong'),
 
-      searchResults: props$.pluck('results$')
-        .distinctUntilChanged()
-        .flatMapLatest(x => x).startWith([]),
+      searchResults:
+        Observable.merge(
+          props$.pluck('results$')
+            .distinctUntilChanged()
+            .flatMapLatest(x => x).startWith([]),
+          query$
+            .filter(x => x === '')
+            .map(() => [])
+        )
     }
   })
 )(({query, setQuery, searchResults, playSong, doSearch}) => (
@@ -47,7 +53,14 @@ let Search = compose(
 
     <View>
       { searchResults.map(result =>
-          <View className={clickable} key={result.nid} onClick={playSong(result)}>
+          <View
+            className={clickable}
+            key={result.nid}
+            onClick={() => {
+              playSong(result)()
+              setQuery('')
+            }}
+          >
             {result.title} - {result.artist}
           </View>
       )}
