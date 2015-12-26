@@ -3,6 +3,8 @@ import React from 'react'
 import {compose, withState} from 'recompose'
 import {observeProps} from 'rx-recompose'
 
+import 'bootstrap/dist/css/bootstrap.css'
+
 import {clickable} from '../style.css'
 import {Scroll, View, Text, TextInput} from '../components'
 
@@ -33,10 +35,6 @@ let Chat = compose(
           width: '100%',
         }}
       />
-      <Text className={clickable} onClick={submit}>
-        Druk gewoon op enter als je je bericht wilt sturen???!!!!
-      </Text>
-
       <Scroll
         style={{maxHeight: 200, overflow: 'auto'}}
         id="chat"
