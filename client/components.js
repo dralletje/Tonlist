@@ -1,5 +1,5 @@
 import React from 'react'
-
+import 'bootstrap/dist/css/bootstrap.css'
 export let View = 'div'
 export let Text = 'span'
 export let TextInput = (props) =>
@@ -28,9 +28,9 @@ export class Audio extends React.Component {
         <audio ref={(x) => this.audio = x} {...this.props}>
           <Text>Your browser does not support the audio element.</Text>
         </audio>
-
-        <span onClick={() => this.audio.play()}>Klik hier als je op je mobiel zit xxx</span>
-      </div>
+        <button type="button" className="btn btn-primary btn-lg btn-block btn btn-info vol"
+          onClick={() => this.audio.play()}>Klik hier als je op je mobiel zit!
+        </button>
     )
   }
 }
