@@ -31,7 +31,7 @@ createPlayer().then(player => {
     let IP = socket.request.connection.remoteAddress
 
     socket.username =
-      IP === '192.168.178.49' // Jonas, aka, G
+      IP === '80.100.200.124' // Jonas, aka, G
       ? 'G' : String.fromCharCode(Math.floor(Math.random()*(max-min+1)+min))
 
     socket.emit('info', {
@@ -60,9 +60,19 @@ createPlayer().then(player => {
       })
     })
 
+    // If I want to extend the client later, I can do so without
+    // the need to modify the server, just use the general purpose
+    // 'anyhing' channel :D
+    socket.on('anything', data => {
+      io.emit('anything', {
+        username: socket.username,
+        data: data,
+      })
+    })
+
     socket.on('search', data => {
       player.music.search(data).then(tracks => {
-        socket.emit('search', tracks.slice(0, 5))
+        socket.emit('search', tracks.slice(0, 10))
       })
     })
   })
