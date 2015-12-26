@@ -1,5 +1,5 @@
 import React from 'react'
-
+import 'bootstrap/dist/css/bootstrap.css'
 export let View = 'div'
 export let Text = 'span'
 export let TextInput = (props) =>
