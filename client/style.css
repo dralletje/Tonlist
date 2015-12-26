@@ -20,6 +20,9 @@
   margin-top:15px;
 }
 
+:local(.playerbutton){
+  border-radius:0;
+}
 body {
   background-color: #252323;
   font-family: 'Source Sans Pro', sans-serif;
@@ -28,4 +31,21 @@ body {
 :local(.listeners) {
   position: relative;
   top: 30px;
+}
+
+.vol {
+  border-radius:0;
+  color: #252323;
+}
+
+.vol:active,
+.vol.active,
+.vol:hover,
+.vol.hover,
+.vol:active:hover, {
+  color:#252323;
+}
+
+.vol {
+  color: #252323;
 }

@@ -1,8 +1,10 @@
 import React from 'react'
 import {compose, withState, mapProps} from 'recompose'
 
-import {clickable} from '../style.css'
+import {clickable, btntje} from '../style.css'
 import {Audio, View, Text, TextInput} from '../components'
+
+import 'bootstrap/dist/css/bootstrap.css'
 
 let Player = compose(
   withState('volume', 'setVolume', '10'),
@@ -33,10 +35,16 @@ let Player = compose(
 
       <View>
         <View className={clickable} onClick={() => setVolumeX(Math.min(numberVolume*100 + 10, 100))}>
-          HARDER { numberVolume >= 1 && '(Nog harder heeft geen zin srry)'}
+          <button type="button" className="btn btn-primary btn-lg btn-block btn btn-danger vol" >
+              Harder
+                { numberVolume >= 1 && '(Hij is al op z\'n hardst)'}
+          </button>
         </View>
         <View className={clickable} onClick={() => setVolumeX(Math.max(numberVolume*100 - 10, 0))}>
-          ZACHTER { numberVolume <= 0 && '(Hij is al op z\'n zachts)'}
+          <button type="button" className="btn btn-primary btn-lg btn-block btn-success vol" >
+              Zachter
+               { numberVolume <= 0 && '(Hij is al op z\'n zachts)'}
+             </button>
         </View>
       </View>
     </View>
