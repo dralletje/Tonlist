@@ -100,7 +100,7 @@ export default compose(
             <View className={box}>
               { audience === 1
                 ? `Je bent de enige luisteraar :')`
-                : `Er zijn ${audience} andere luisteraars!`
+                : `Er zijn ${audience} luisteraars!`
               }
           </View>
           }
