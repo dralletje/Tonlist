@@ -26,6 +26,10 @@ createPlayer().then(player => {
   let io = SocketIO(app)
 
   io.on('connection', socket => {
+    io.emit('info', {
+      audience: Object.keys(io.sockets.connected).length,
+    })
+
     let max = 839
     let min = 728
     let IP = socket.request.connection.remoteAddress
@@ -41,10 +45,6 @@ createPlayer().then(player => {
     })
 
     socket.on('play', track => {
-      if (player.track() && player.track().nid === track.nid) {
-        log(`Song already playing!`)
-        return
-      }
       player.play(track).then(playing => {
         log(`Done loading track ${track.title}, now playing it`)
         io.emit('info', {
