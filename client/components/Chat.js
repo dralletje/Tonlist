@@ -52,10 +52,6 @@ let Chat = compose(
           width: '100%',
         }}
       />
-      <Text className={clickable} onClick={submit}>
-        Druk gewoon op enter als je je bericht wilt sturen???!!!!
-      </Text>
-
       <Scroll
         style={{maxHeight: 200, overflow: 'auto'}}
         id="chat"
