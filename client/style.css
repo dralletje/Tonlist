@@ -14,6 +14,7 @@
   background-color: #383535;
   color: #8d8989;
 }
+
 /* mobile && tablets */
 /* Custom, iPhone Retina */
 @media only screen and (min-width : 320px) {
@@ -38,8 +39,9 @@
     margin-top:15px;
   }
 }
+
 /* desktops */
-/* Medium Devices, Desktops + large screens */
+/* Medium Devices, Desktops */
 @media only screen and (min-width : 992px) {
   :local(.headerimage) {
     width: 80%;
@@ -49,6 +51,8 @@
     display:none;
   }
 }
+
+/* large screens */
 @media only screen and (min-width : 1200px){
   :local(.headerimage) {
     width: 80%;
