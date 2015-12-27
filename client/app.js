@@ -92,7 +92,9 @@ export default compose(
     <View className="container">
       <View className="row">
         <View className="col-md-9">
-          <img src={header} className={headerimage}/>
+          <View className={headerimage}>
+            <img src={header} className="img-responsive"/>
+          </View>
         </View>
         <View className="col-md-3">
           <View className={listeners}>
