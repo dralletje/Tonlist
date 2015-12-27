@@ -23,31 +23,20 @@ let Chat = compose(
   withState('emotes', 'setEmotes', null),
   lifecycle(x => {
     fetch('https://twitchemotes.com/api_cache/v2/global.json')
-    .then(function(response) {
-      return response.json()
-    }).then(function(json) {
-      x.props.setEmotes(json)
-      console.log('parsed json', json)
-    }).catch(function(ex) {
-      console.log('parsing failed', ex)
-    })
-  },()=>{}
-)
+    .then(x => x.json())
+    .then(x.props.setEmotes)
+    .catch(() => alert('DOOD VERDERF AAAAAHHHHHHH'))
+  }, () => {})
 )(({query, setQuery, chat, send, emotes}) => {
-  console.log('emotes', emotes)
   let emoteKeys = emotes && Object.keys(emotes.emotes)
   let getEmote = (username) => {
     if (emotes === null) {
       return null
     } else {
       let x = username.charCodeAt(0) - 728
-      console.log('x', x)
       let key = emoteKeys[x]
-      console.log('key', key)
       let emote = emotes.emotes[key]
-      console.log('emote', emote)
       let url = emotes.template.small.replace('{image_id}', emote.image_id)
-      console.log('url', url)
       return <img src={url} />
     }
   }
