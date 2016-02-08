@@ -92,7 +92,9 @@ export default compose(
     <View className="container">
       <View className="row">
         <View className="col-md-9">
-          <img src={header} className={headerimage}/>
+          <View className={headerimage}>
+            <img src={header} className="img-responsive"/>
+          </View>
         </View>
         <View className="col-md-3">
           <View className={listeners}>
@@ -100,7 +102,7 @@ export default compose(
             <View className={box}>
               { audience === 1
                 ? `Je bent de enige luisteraar :')`
-                : `Er zijn ${audience} andere luisteraars!`
+                : `Er zijn ${audience - 1} andere luisteraars!`
               }
           </View>
           }

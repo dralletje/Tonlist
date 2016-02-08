@@ -1,9 +1,7 @@
 import React from 'react'
 
-import {compose, withState} from 'recompose'
+import {compose, withState, lifecycle} from 'recompose'
 import {observeProps} from 'rx-recompose'
-
-import 'bootstrap/dist/css/bootstrap.css'
 
 import {clickable} from '../style.css'
 import {Scroll, View, Text, TextInput} from '../components'
@@ -21,8 +19,27 @@ let Chat = compose(
       , []).startWith([])
       .map(xs => xs.slice().reverse()),
   })),
-  withState('query', 'setQuery', '')
-)(({query, setQuery, chat, send}) => {
+  withState('query', 'setQuery', ''),
+  withState('emotes', 'setEmotes', null),
+  lifecycle(x => {
+    fetch('https://twitchemotes.com/api_cache/v2/global.json')
+    .then(x => x.json())
+    .then(x.props.setEmotes)
+    .catch(() => alert('DOOD VERDERF AAAAAHHHHHHH'))
+  }, () => {})
+)(({query, setQuery, chat, send, emotes}) => {
+  let emoteKeys = emotes && Object.keys(emotes.emotes)
+  let getEmote = (username) => {
+    if (emotes === null) {
+      return null
+    } else {
+      let x = username.charCodeAt(0) - 728
+      let key = emoteKeys[x]
+      let emote = emotes.emotes[key]
+      let url = emotes.template.small.replace('{image_id}', emote.image_id)
+      return <img src={url} />
+    }
+  }
   let submit = () => send(query)() && setQuery('')
   return (
     <View>
@@ -42,9 +59,9 @@ let Chat = compose(
       >
         { chat.map(message =>
             <Text key={message.id}>
-              <Text style={{fontWeight: 'bold'}}>
-                {message.username}:
-              </Text> {message.message}<br />
+              {getEmote(message.username)}
+              <Text style={{fontWeight:'bold'}}>: </Text>
+              {message.message}<br />
             </Text>
         )}
       </Scroll>
