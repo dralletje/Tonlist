@@ -3,6 +3,8 @@ import React from 'react'
 import {compose, withState, lifecycle} from 'recompose'
 import {observeProps} from 'rx-recompose'
 
+import {TextField} from 'material-ui'
+
 import {clickable} from '../style.css'
 import {Scroll, View, Text, TextInput} from '../components'
 
@@ -43,14 +45,13 @@ let Chat = compose(
   let submit = () => send(query)() && setQuery('')
   return (
     <View>
-      <TextInput
-        onTextChange={setQuery}
-        onSubmit={submit}
+      <TextField
+        onEnterKeyDown={submit}
         value={query}
-        placeholder="Kappa!"
-        style={{
-          width: '100%',
-        }}
+        onChange={(e, value) => setQuery(e.target.value)}
+        hintText="Kappa!"
+        type="text"
+        fullWidth={true}
       />
       <Scroll
         style={{maxHeight: 200, overflow: 'auto'}}
