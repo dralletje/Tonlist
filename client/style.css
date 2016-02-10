@@ -82,6 +82,14 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-:local(.volume) {
-  padding: 0;
+/* Scrollbar */
+/* For the "inset" look only */
+::-webkit-scrollbar-thumb:vertical {
+  background-color: #55799d;
+  height: 30px;
+}
+
+::-webkit-scrollbar {
+  height: 5px;width: 5px;
+  background-color: #34495e;
 }
