@@ -6,7 +6,7 @@ import {observeProps, createEventHandler} from 'rx-recompose'
 import 'bootstrap/dist/css/bootstrap.css'
 import header from './tonlist-monochrome1.png'
 
-import {clickable, box, headerimage, listeners, volume} from './style.css'
+import {clickable, box, headerimage, listeners} from './style.css'
 
 import {Scroll, Audio, View, Text, TextInput} from './components'
 import Search from './components/Search'
