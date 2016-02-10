@@ -23,6 +23,9 @@ let Player = compose(
       <Slider
         value={volume}
         onChange={(e, value) => setVolume(value)}
+        style={{
+            marginBottom: 24
+          }}
         />
     </View>
   )

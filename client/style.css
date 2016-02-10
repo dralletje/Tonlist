@@ -20,7 +20,7 @@
 /* Custom, iPhone Retina */
 @media only screen and (min-width : 320px) {
   :local(.headerimage) {
-    width: 100%;
+    width: 103%;
     margin-top:15px;
   }
 }
@@ -28,7 +28,7 @@
 /* Extra Small Devices, Phones */
 @media only screen and (min-width : 480px) {
   :local(.headerimage) {
-    width: 100%;
+    width: 103%;
     margin-top:15px;
   }
 }
@@ -36,7 +36,7 @@
 /* Small Devices, Tablets */
 @media only screen and (min-width : 768px) {
   :local(.headerimage) {
-    width: 100%;
+    width: 103%;
     margin-top:15px;
   }
 }
@@ -45,22 +45,31 @@
 /* Medium Devices, Desktops */
 @media only screen and (min-width : 992px) {
   :local(.headerimage) {
-    width: 67%;
+    width: 103%;
     margin-top:15px;
   }
   :local(.mobilebutton) {
     display:none;
+  }
+  :local(.listeners) {
+    position: relative;
+    top: 85px;
   }
 }
 
 /* large screens */
 @media only screen and (min-width : 1200px){
   :local(.headerimage) {
-    width: 67%;
+    width: 103%;
     margin-top:15px;
   }
   :local(.mobilebutton) {
     display:none;
+  }
+
+  :local(.listeners) {
+    position: relative;
+    top: 85px;
   }
 }
 
@@ -73,7 +82,6 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-:local(.listeners) {
-  position: relative;
-  top: 30px;
+:local(.volume) {
+  padding: 0;
 }

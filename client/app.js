@@ -6,7 +6,7 @@ import {observeProps, createEventHandler} from 'rx-recompose'
 import 'bootstrap/dist/css/bootstrap.css'
 import header from './tonlist-monochrome1.png'
 
-import {clickable, box, headerimage, listeners} from './style.css'
+import {clickable, box, headerimage, listeners, volume} from './style.css'
 
 import {Scroll, Audio, View, Text, TextInput} from './components'
 import Search from './components/Search'
@@ -91,12 +91,12 @@ export default compose(
   return (
     <View className="container">
       <View className="row">
-        <View className="col-md-9">
+        <View className="col-md-6">
           <View className={headerimage}>
             <img src={header} className="img-responsive"/>
           </View>
         </View>
-        <View className="col-md-3">
+        <View className="col-md-3 col-md-offset-3">
           <View className={listeners}>
           { audience &&
             <View className={box}>
@@ -119,9 +119,11 @@ export default compose(
           <Track track={track} />
         </Box>
 
-        <Box className="col-md-3">
-          <Player time={time} URL={URL} />
-        </Box>
+        <View>
+          <Box className="col-md-3">
+            <Player time={time} URL={URL}/>
+          </Box>
+        </View>
       </View>
 
       <View className="row">
