@@ -16,8 +16,9 @@ let Player = compose(
   withState('errorTag', 'setError', 0)
 )(({volume, setVolume, time, URL, setError, errorTag}) => {
   let onWheel = e => {
+    e.preventDefault()
     let {deltaY} = e
-    let x = bounds(0, 1, volume - (deltaY / 100))
+    let x = bounds(0, 1, volume - ((deltaY > 0 ? 1 : -1) * 0.01))
     setVolume(x)
   }
 
