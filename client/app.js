@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import header from './tonlist-monochrome1.png'
 import favicon from './assets/favicon.png'
 
-import {clickable, box, headerimage, listeners, volume} from './style.css'
+import {clickable, box, headerimage, listeners} from './style.css'
 
 import {Scroll, Audio, View, Text, TextInput} from './components'
 import Search from './components/Search'

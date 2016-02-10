@@ -1,6 +1,8 @@
 import React from 'react'
 import {mobilebutton} from './style.css'
 
+import {RaisedButton} from 'material-ui'
+
 export let View = 'div'
 export let Text = 'span'
 export let TextInput = (props) =>
@@ -30,9 +32,13 @@ export class Audio extends React.Component {
           <Text>Your browser does not support the audio element.</Text>
         </audio>
         <View className={mobilebutton}>
-        <button type="button" className="btn btn-primary btn-lg btn-block btn btn-info vol"
-          onClick={() => this.audio.play()}>Klik hier als je op je mobiel zit!
-        </button>
+          <RaisedButton
+            onMouseDown={() => this.audio.play()}
+            label="Klik hier als je op je mobiel zit!"
+            fullWidth={true}
+            backgroundColor="#55799d"
+            labelColor="#131b21"
+            />
         </View>
       </View>
     )
