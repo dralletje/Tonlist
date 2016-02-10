@@ -123,11 +123,9 @@ export default compose(
           <Track track={track} />
         </Box>
 
-        <View>
-          <Box className="col-md-3">
-            <Player time={time} URL={URL}/>
-          </Box>
-        </View>
+        <Box className="col-md-3">
+          <Player time={time} URL={URL}/>
+        </Box>
       </View>
 
       <View className="row">
