@@ -3,11 +3,17 @@ import React from 'react'
 import {compose, withState, lifecycle} from 'recompose'
 import {observeProps} from 'rx-recompose'
 
+import {TextField} from 'material-ui'
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import MyRawTheme from '../components/Theme.js';
+import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
+
 import {clickable} from '../style.css'
 import {Scroll, View, Text, TextInput} from '../components'
 
 let messageId = 1
 let Chat = compose(
+  ThemeDecorator(ThemeManager.getMuiTheme(MyRawTheme)),
   observeProps(props$ => ({
     send: props$.pluck('send'),
     chat: props$.pluck('messages$').distinctUntilChanged()
@@ -43,13 +49,15 @@ let Chat = compose(
   let submit = () => send(query)() && setQuery('')
   return (
     <View>
-      <TextInput
-        onTextChange={setQuery}
-        onSubmit={submit}
+      <TextField
+        onEnterKeyDown={submit}
         value={query}
-        placeholder="Kappa!"
-        style={{
-          width: '100%',
+        onChange={(e, value) => setQuery(e.target.value)}
+        hintText="Kappa!"
+        type="text"
+        fullWidth={true}
+        underlineStyle={{
+          borderWidth: 2
         }}
       />
       <Scroll
