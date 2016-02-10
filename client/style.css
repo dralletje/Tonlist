@@ -5,7 +5,6 @@
 :local(.clickable):hover {
   cursor: pointer;
   text-decoration: none;
-  color: #53dd6c;
 }
 
 :local(.box) {
@@ -13,7 +12,8 @@
   padding: 10px;
   background-color: #2c3e50;
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-  color: #54799c;
+  /* Track colour */
+  color: #486784;
 }
 
 /* mobile && tablets */
@@ -67,6 +67,7 @@
 :local(.playerbutton){
   border-radius:0;
 }
+
 body {
   background-color: #34495e;
   font-family: 'Roboto', sans-serif;
@@ -75,21 +76,4 @@ body {
 :local(.listeners) {
   position: relative;
   top: 30px;
-}
-
-.vol {
-  border-radius:0;
-  color: #252323;
-}
-
-.vol:active,
-.vol.active,
-.vol:hover,
-.vol.hover,
-.vol:active:hover, {
-  color:#252323;
-}
-
-.vol {
-  color: #252323;
 }

@@ -4,12 +4,16 @@ import {compose, withState, lifecycle} from 'recompose'
 import {observeProps} from 'rx-recompose'
 
 import {TextField} from 'material-ui'
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import MyRawTheme from '../components/Theme.js';
+import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
 
 import {clickable} from '../style.css'
 import {Scroll, View, Text, TextInput} from '../components'
 
 let messageId = 1
 let Chat = compose(
+  ThemeDecorator(ThemeManager.getMuiTheme(MyRawTheme)),
   observeProps(props$ => ({
     send: props$.pluck('send'),
     chat: props$.pluck('messages$').distinctUntilChanged()
@@ -52,6 +56,9 @@ let Chat = compose(
         hintText="Kappa!"
         type="text"
         fullWidth={true}
+        underlineStyle={{
+          borderWidth: 2
+        }}
       />
       <Scroll
         style={{maxHeight: 200, overflow: 'auto'}}

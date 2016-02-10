@@ -1,6 +1,12 @@
 import React from 'react'
 import {Observable} from 'rx'
 
+import {TextField} from 'material-ui'
+
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import MyRawTheme from '../components/Theme.js';
+import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
+
 import {compose, withState} from 'recompose'
 import {observeProps, createEventHandler} from 'rx-recompose'
 
@@ -8,6 +14,7 @@ import {clickable} from '../style.css'
 import {View, Text, TextInput} from '../components'
 
 let Search = compose(
+  ThemeDecorator(ThemeManager.getMuiTheme(MyRawTheme)),
   observeProps(props$ => {
     let setQuery = createEventHandler()
     let query$ = setQuery.share()
@@ -41,13 +48,14 @@ let Search = compose(
   })
 )(({query, setQuery, searchResults, playSong, doSearch}) => (
   <View>
-    <TextInput
-      placeholder="Search for a song! :D"
-      onTextChange={setQuery}
+    <TextField
+      hintText="Search for a song! :D"
+      onChange={(e,value) => setQuery(e.target.value)}
       value={query}
-      onSubmit={doSearch(query)}
-      style={{
-        width: '100%',
+      onEnterKeyDown={doSearch(query)}
+      fullWidth={true}
+      underlineStyle={{
+        borderWidth: 2
       }}
     />
 

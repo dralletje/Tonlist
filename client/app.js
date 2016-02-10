@@ -4,7 +4,7 @@ import {mapProps, compose, withState} from 'recompose'
 import {observeProps, createEventHandler} from 'rx-recompose'
 
 import 'bootstrap/dist/css/bootstrap.css'
-import header from './tonlist-monochrome.jpg'
+import header from './tonlist-monochrome1.png'
 
 import {clickable, box, headerimage, listeners} from './style.css'
 

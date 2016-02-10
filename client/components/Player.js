@@ -2,8 +2,12 @@ import React from 'react'
 import {Slider} from 'material-ui'
 import {compose, withState, mapProps} from 'recompose'
 import {Audio, View, Text, TextInput} from '../components'
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import MyRawTheme from '../components/Theme.js';
+import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
 
 let Player = compose(
+  ThemeDecorator(ThemeManager.getMuiTheme(MyRawTheme)),
   withState('volume', 'setVolume', 0.2),
   withState('errorTag', 'setError', 0)
 )(({volume, setVolume, time, URL, setError, errorTag}) => {
