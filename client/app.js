@@ -1,10 +1,13 @@
 import React from 'react'
+import 'whatwg-fetch'
 import io from 'socket.io-client'
 import {mapProps, compose, withState} from 'recompose'
 import {observeProps, createEventHandler} from 'rx-recompose'
 
 import 'bootstrap/dist/css/bootstrap.css'
-import header from './tonlist-volcano.png'
+import header from './tonlist-monochrome1.png'
+import background from './assets/background.jpg'
+import favicon from './assets/favicon.png'
 
 import {clickable, box, headerimage, listeners} from './style.css'
 
@@ -12,6 +15,7 @@ import {Scroll, Audio, View, Text, TextInput} from './components'
 import Search from './components/Search'
 import Chat from './components/Chat'
 import Player from './components/Player'
+import Favicon from './components/Favicon'
 
 let URL = 'http://web.dral.eu:3040/'
 
@@ -25,7 +29,21 @@ let observableFromSocket = (socket, event) =>
     return () => socket.removeListener(listener)
   })
 
-let Track = ({track}) => (
+let Background = ({url, style}) => {
+  let fullstyle = Object.assign({
+    backgroundImage: `url('${url}')`,
+    backgroundSize: 'cover',
+    position: 'absolute',
+    top: 0, bottom: 0,
+    left: 0, right: 0,
+  }, style)
+
+  return (
+    <View style={fullstyle} />
+  )
+}
+
+let Track = ({track, time, URL}) => (
   <View>
     { !track
       ? (
@@ -33,18 +51,30 @@ let Track = ({track}) => (
           Geen liedje op het moment :(
         </View>
       ) : (
-        <View>
-          <b>{track.artist}</b><br />
-          {track.title}
-          <View style= {{width:'100%'}}>
+        <View style={{ display: 'flex' }}>
+          <View>
             { track.albumArtRef[0] &&
               <img
                 src={track.albumArtRef[0].url}
-                style={{
-                  width: '80%',
-                }}
+                style={{ height: 150 }}
               />
             }
+          </View>
+          <View
+            style={{
+              marginLeft: 20,
+              marginTop: 5,
+              flex: 1,
+              marginRight: 10,
+            }}
+          >
+            <View>
+              <b>{track.artist}</b><br />
+              {track.title}
+            </View>
+            <View style={{ flex: 1 }}>
+              <Player time={time} URL={URL} />
+            </View>
           </View>
         </View>
       )
@@ -90,40 +120,40 @@ export default compose(
 
   return (
     <View className="container">
+      <Background
+        url={background}
+        style={{ WebkitFilter: 'blur(10px)' }}
+      />
+      <Favicon url={favicon} />
+
       <View className="row">
-        <View className="col-md-9">
-          <img src={header} className={headerimage}/>
-        </View>
-        <View className="col-md-3">
-          <View className={listeners}>
-          { audience &&
-            <View className={box}>
-              { audience === 1
-                ? `Je bent de enige luisteraar :')`
-                : `Er zijn ${audience} andere luisteraars!`
-              }
+        <View className="col-sm-6">
+          <View className={headerimage}>
+            <img src={header} className="img-responsive"/>
           </View>
-          }
+        </View>
+        <View className="col-sm-3 col-sm-offset-3">
+          <View className={listeners}>
+            { !audience || audience === 1
+              ? `Je bent de enige luisteraar :')`
+              : `Er zijn ${audience - 1} andere luisteraars!`
+            }
           </View>
         </View>
       </View>
 
       <View className="row">
-        <Box className="col-md-6">
+        <Box className="col-sm-6">
           <Search playSong={playSong} doSearch={search} results$={searchSocket} />
         </Box>
 
-        <Box className="col-md-3">
-          <Track track={track} />
-        </Box>
-
-        <Box className="col-md-3">
-          <Player time={time} URL={URL} />
+        <Box className="col-sm-6">
+          <Track track={track} time={time} URL={URL} />
         </Box>
       </View>
 
       <View className="row">
-        <Box className="col-md-12">
+        <Box className="col-sm-12">
           <Chat send={chat} messages$={chatSocket} />
         </Box>
       </View>

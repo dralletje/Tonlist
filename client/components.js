@@ -1,5 +1,7 @@
 import React from 'react'
-import 'bootstrap/dist/css/bootstrap.css'
+import {mobilebutton} from './style.css'
+
+import {RaisedButton} from 'material-ui'
 
 export let View = 'div'
 export let Text = 'span'
@@ -16,23 +18,33 @@ export let TextInput = (props) =>
   />
 
 export class Audio extends React.Component {
-  componentDidUpdate(prevProps) {
-    let nextProps = this.props
+  componentWillReceiveProps(nextProps) {
     if (this.audio) {
       this.audio.volume = nextProps.volume
     }
   }
 
+  shouldComponentUpdate(nextProps) {
+    let prevProps = this.props
+    return nextProps.src !== prevProps.src
+  }
+
   render() {
     return (
-      <div>
+      <View>
         <audio ref={(x) => this.audio = x} {...this.props}>
           <Text>Your browser does not support the audio element.</Text>
         </audio>
-        <div className="visible-xs visible-sm">
-        <button type="button" className="btn btn-primary btn-lg btn-block btn btn-info vol" onClick={() => this.audio.play()}>Ik zit op mijn mobiel!</button>
-        </div>
-      </div>
+        <View className={mobilebutton}>
+          <RaisedButton
+            onMouseDown={() => this.audio.play()}
+            label="Klik hier als je op je mobiel zit!"
+            fullWidth={true}
+            backgroundColor="#55799d"
+            labelColor="#131b21"
+          />
+        </View>
+      </View>
     )
   }
 }
