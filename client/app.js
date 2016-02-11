@@ -1,4 +1,5 @@
 import React from 'react'
+import 'whatwg-fetch'
 import io from 'socket.io-client'
 import {mapProps, compose, withState} from 'recompose'
 import {observeProps, createEventHandler} from 'rx-recompose'
