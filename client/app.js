@@ -6,7 +6,7 @@ import {observeProps, createEventHandler} from 'rx-recompose'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import header from './tonlist-monochrome1.png'
-import background from './assets/background.jpg'
+import background from './assets/mountains1.jpg'
 import favicon from './assets/favicon.png'
 
 import {clickable, box, headerimage, listeners} from './style.css'
@@ -122,7 +122,7 @@ export default compose(
     <View className="container">
       <Background
         url={background}
-        style={{ WebkitFilter: 'blur(10px)' }}
+        style={{ WebkitFilter: 'blur(8px)' }}
       />
       <Favicon url={favicon} />
 
