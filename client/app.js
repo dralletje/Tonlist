@@ -5,6 +5,7 @@ import {observeProps, createEventHandler} from 'rx-recompose'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import header from './tonlist-monochrome1.png'
+import background from './assets/background.jpg'
 import favicon from './assets/favicon.png'
 
 import {clickable, box, headerimage, listeners} from './style.css'
@@ -26,6 +27,22 @@ let observableFromSocket = (socket, event) =>
 
     return () => socket.removeListener(listener)
   })
+
+let Background = ({url, style, ...props}) => {
+  return (
+    <View
+      style={{
+        backgroundImage: `url('${url}')`,
+        backgroundSize: 'cover',
+        position: 'absolute',
+        top: 0, bottom: 0,
+        left: 0, right: 0,
+        ...style,
+      }}
+      {...props}
+    />
+  )
+}
 
 let Track = ({track, time, URL}) => (
   <View>
@@ -104,6 +121,10 @@ export default compose(
 
   return (
     <View className="container">
+      <Background
+        url={background}
+        style={{ WebkitFilter: 'blur(10px)' }}
+      />
       <Favicon url={favicon} />
 
       <View className="row">
