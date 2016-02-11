@@ -68,9 +68,8 @@ let Search = compose(
               playSong(result)()
               setQuery('')
             }}
-          >
-            {result.title} - {result.artist}
-          </View>
+            children={`${result.title} - ${result.artist}`}
+          />
       )}
     </View>
   </View>

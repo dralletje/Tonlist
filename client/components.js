@@ -18,11 +18,15 @@ export let TextInput = (props) =>
   />
 
 export class Audio extends React.Component {
-  componentDidUpdate(prevProps) {
-    let nextProps = this.props
+  componentWillReceiveProps(nextProps) {
     if (this.audio) {
       this.audio.volume = nextProps.volume
     }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    let prevProps = this.props
+    return nextProps.src !== prevProps.src
   }
 
   render() {
@@ -38,7 +42,7 @@ export class Audio extends React.Component {
             fullWidth={true}
             backgroundColor="#55799d"
             labelColor="#131b21"
-            />
+          />
         </View>
       </View>
     )

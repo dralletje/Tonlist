@@ -27,7 +27,7 @@ let observableFromSocket = (socket, event) =>
     return () => socket.removeListener(listener)
   })
 
-let Track = ({track}) => (
+let Track = ({track, time, URL}) => (
   <View>
     { !track
       ? (
@@ -35,18 +35,30 @@ let Track = ({track}) => (
           Geen liedje op het moment :(
         </View>
       ) : (
-        <View>
-          <b>{track.artist}</b><br />
-          {track.title}
-          <View style= {{width:'100%'}}>
+        <View style={{ display: 'flex' }}>
+          <View>
             { track.albumArtRef[0] &&
               <img
                 src={track.albumArtRef[0].url}
-                style={{
-                  width: '80%',
-                }}
+                style={{ height: 150 }}
               />
             }
+          </View>
+          <View
+            style={{
+              marginLeft: 20,
+              marginTop: 5,
+              flex: 1,
+              marginRight: 10,
+            }}
+          >
+            <View>
+              <b>{track.artist}</b><br />
+              {track.title}
+            </View>
+            <View style={{ flex: 1 }}>
+              <Player time={time} URL={URL} />
+            </View>
           </View>
         </View>
       )
@@ -95,41 +107,33 @@ export default compose(
       <Favicon url={favicon} />
 
       <View className="row">
-        <View className="col-md-6">
+        <View className="col-sm-6">
           <View className={headerimage}>
             <img src={header} className="img-responsive"/>
           </View>
         </View>
-        <View className="col-md-3 col-md-offset-3">
+        <View className="col-sm-3 col-sm-offset-3">
           <View className={listeners}>
-          { audience &&
-            <View className={box}>
-              { audience === 1
-                ? `Je bent de enige luisteraar :')`
-                : `Er zijn ${audience - 1} andere luisteraars!`
-              }
-          </View>
-          }
+            { !audience || audience === 1
+              ? `Je bent de enige luisteraar :')`
+              : `Er zijn ${audience - 1} andere luisteraars!`
+            }
           </View>
         </View>
       </View>
 
       <View className="row">
-        <Box className="col-md-6">
+        <Box className="col-sm-6">
           <Search playSong={playSong} doSearch={search} results$={searchSocket} />
         </Box>
 
-        <Box className="col-md-3">
-          <Track track={track} />
-        </Box>
-
-        <Box className="col-md-3">
-          <Player time={time} URL={URL}/>
+        <Box className="col-sm-6">
+          <Track track={track} time={time} URL={URL} />
         </Box>
       </View>
 
       <View className="row">
-        <Box className="col-md-12">
+        <Box className="col-sm-12">
           <Chat send={chat} messages$={chatSocket} />
         </Box>
       </View>
