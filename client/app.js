@@ -28,7 +28,7 @@ let observableFromSocket = (socket, event) =>
     return () => socket.removeListener(listener)
   })
 
-let Background = ({url, style, ...props}) => {
+let Background = ({url, style}) => {
   return (
     <View
       style={{
@@ -39,7 +39,6 @@ let Background = ({url, style, ...props}) => {
         left: 0, right: 0,
         ...style,
       }}
-      {...props}
     />
   )
 }
