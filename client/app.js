@@ -29,17 +29,16 @@ let observableFromSocket = (socket, event) =>
   })
 
 let Background = ({url, style}) => {
+  let fullstyle = Object.assign({
+    backgroundImage: `url('${url}')`,
+    backgroundSize: 'cover',
+    position: 'absolute',
+    top: 0, bottom: 0,
+    left: 0, right: 0,
+  }, ...style)
+  
   return (
-    <View
-      style={{
-        backgroundImage: `url('${url}')`,
-        backgroundSize: 'cover',
-        position: 'absolute',
-        top: 0, bottom: 0,
-        left: 0, right: 0,
-        ...style,
-      }}
-    />
+    <View style={fullstyle} />
   )
 }
 
