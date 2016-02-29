@@ -118,8 +118,51 @@ export default compose(
   let track = info && info.track
   let audience = info && info.audience
 
+  let updateMusic = function(data) {
+    var spotifyId = data.slice(31);
+    fetch('https://api.spotify.com/v1/tracks/'+spotifyId)
+    .then(function(response) {
+      if (response.status !== 200) {
+          console.log('Failed to GET. Status Code: ' +
+            response.status);
+          return;
+        }
+        response.json().then(function(data) {
+            let artist = data.artists[0].name;
+            let track = data.name;
+            console.log(artist);
+            console.log(track);
+            search(track + " " + artist)();
+            var subscription = searchSocket.forEach(function(e) {
+              console.log(e[0]);
+              playSong(e[0])();
+              subscription.dispose();
+            })
+            //playSong(result)();
+        });
+    });
+  }
+
+  let allowDrop = function(e) {
+    e.preventDefault();
+  }
+
+  let getDropped = function(e) {
+    e.preventDefault();
+    var data = e.dataTransfer.getData("Text");
+    if (data.slice(8,20) !== "open.spotify") {
+      console.log("Invalid spotify link");
+      return false;
+    }
+    updateMusic(data);
+  }
+
   return (
-    <View className="container">
+    <View
+      className="container"
+      onDragOver={allowDrop}
+      onDrop={getDropped}
+      >
       <Background
         url={background}
         style={{ WebkitFilter: 'blur(8px)' }}

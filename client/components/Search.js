@@ -65,6 +65,7 @@ let Search = compose(
             className={clickable}
             key={result.nid}
             onClick={() => {
+              console.log(result);
               playSong(result)()
               setQuery('')
             }}
