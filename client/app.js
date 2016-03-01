@@ -5,7 +5,7 @@ import {mapProps, compose, withState} from 'recompose'
 import {observeProps, createEventHandler} from 'rx-recompose'
 
 import 'bootstrap/dist/css/bootstrap.css'
-import header from './tonlist-monochrome1.png'
+import header from './assets/tonlist-monochrome1.png'
 import background from './assets/mountains1.jpg'
 import favicon from './assets/favicon.png'
 
@@ -162,7 +162,7 @@ export default compose(
       className="container"
       onDragOver={allowDrop}
       onDrop={getDropped}
-      >
+    >
       <Background
         url={background}
         style={{ WebkitFilter: 'blur(8px)' }}
