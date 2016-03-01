@@ -56,6 +56,25 @@ let Box = props => (
 
 export default compose(
   observeProps(props$ => {
+    // Observable en functie om die te triggeren
+    let dragSpotify$ = createEventHandler()
+
+    dragSpotify$
+    // Krijg je spotify data behorend bij een track (async, thus flatMapLatest)
+    .flatMapLatest(spotifyId =>
+      fetch('https://api.spotify.com/v1/tracks/' + spotifyId)
+      .then(response => response.json())
+    // Krijg de search results bij de spotify data (async, this flatMapLatest)
+    ).flatMapLatest(spotifyData => {
+      socket.emit('search', `${spotifyData.name} ${spotifyData.artists[0].name}`)
+      return observableFromSocket(socket, 'search').take(1)
+    })
+    // Neem het eerste result
+    .map(results => first(results))
+    // Be sure er is een eerste result
+    .filter(x => x !== undefined)
+    // Speel elk ding dat het tot hier maakt
+    .subscribe(song => socket.emit('play', song))
 
     let info$ =
       observableFromSocket(socket, 'info')
@@ -69,10 +88,11 @@ export default compose(
         .skip(1).map(x => Date.now())
         .do(x => console.log('Changed!!'))
       ),
+      onSpotifyDrag: Observable.just(dragSpotify$),
     }
   })
 )(props => {
-  let {time, info} = props
+  let {time, info, onSpotifyDrag} = props
   let emit = event => data => () => socket.emit(event, data)
 
   let playSong = emit('play')
@@ -85,35 +105,25 @@ export default compose(
   let track = info && info.track
   let audience = info && info.audience
 
-  let playSpotify = function(data) {
-    search(data.name + ' ' + data.artists[0].name)();
-    var subscription = searchSocket.forEach(results => {
-      if (first(results)) {
-        playSong(first(results))();
-        subscription.dispose();
-      }
-    })
-  }
-
-  let updateMusic = (spotifyId) => {
-    fetch('https://api.spotify.com/v1/tracks/' + spotifyId)
-    .then(response => response.json())
-    .then(data => playSpotify(data))
-  }
-
   let allowDrop = (event) => {
-    event.preventDefault();
+    event.preventDefault()
   }
 
   let getDropped = (event) => {
     event.preventDefault()
-    var data = event.dataTransfer.getData('Text')
-    if (data.slice(8,20) !== 'open.spotify') {
+
+    // Make sure it is a spotify id
+    let spotifyLink = /https:\/\/open.spotify.com\/track\/([^/]{22})/
+    let data = event.dataTransfer.getData('Text')
+    let match = data.match(spotifyLink)
+
+    if (match === null) {
       console.log('Invalid spotify link')
       return false
     }
-    // Slice is Spotify ID
-    updateMusic(data.slice(31))
+
+    // And extract the spotify id
+    onSpotifyDrag(match[1])
   }
 
   return (
