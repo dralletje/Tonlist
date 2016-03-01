@@ -77,38 +77,51 @@ export default compose(
     .subscribe(song => socket.emit('play', song))
 
     let info$ =
+      // 'info' events van de socket
       observableFromSocket(socket, 'info')
+      // Elke keer dat er een nieuwe komt, Object.assign' (merge) je deze
+      // met de vorige, en geef je het resultaat door
       .scan((info, newInfo) =>
         Object.assign({}, info, newInfo)
       , {})
+
     return {
       info: info$,
       time: (
+        // Elke keer dat info changed (distinctUntilChanged)
         info$.distinctUntilChanged()
+        // (Behalve de eerste keer (skip)), maak je er de current date van
         .skip(1).map(x => Date.now())
+        // En log je dit (dit is alleen een side-effect)
         .do(x => console.log('Changed!!'))
       ),
+      // Geef de trigger-functie van spotify drag mee
       onSpotifyDrag: Observable.just(dragSpotify$),
     }
   })
 )(props => {
   let {time, info, onSpotifyDrag} = props
+  // Shortcut om een event naar de socket te sturen
   let emit = event => data => () => socket.emit(event, data)
 
+  // Shortere shortcuts
   let playSong = emit('play')
   let search = emit('search')
   let chat = emit('chat')
 
+  // Neem events van de socket in een observable
   let chatSocket = observableFromSocket(socket, 'chat')
   let searchSocket = observableFromSocket(socket, 'search')
 
   let track = info && info.track
   let audience = info && info.audience
 
+  // Maak het mogelijk het getDropped event te triggeren
   let allowDrop = (event) => {
     event.preventDefault()
   }
 
+  // OnDropped event catcher
   let getDropped = (event) => {
     event.preventDefault()
 
