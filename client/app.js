@@ -1,32 +1,35 @@
 import React from 'react'
 import 'whatwg-fetch'
 import io from 'socket.io-client'
-import {mapProps, compose, withState} from 'recompose'
+import {compose} from 'recompose'
 import {observeProps, createEventHandler} from 'rx-recompose'
+import {Observable} from 'rx'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import header from './assets/tonlist-monochrome1.png'
 import background from './assets/mountains1.jpg'
 import favicon from './assets/favicon.png'
 
-import {clickable, box, headerimage, listeners} from './style.css'
+import {box, headerimage, listeners} from './style.css'
 
-import {Scroll, Audio, View, Text, TextInput} from './components'
+import {View} from './components'
 import Search from './components/Search'
 import Chat from './components/Chat'
-import Player from './components/Player'
 import Favicon from './components/Favicon'
+import Track from './components/Track'
 
 let URL = 'http://web.dral.eu:3040/'
 
 let socket = io(URL)
 
-let observableFromSocket = (socket, event) =>
-  Rx.Observable.create(observer => {
-    let listener = value => observer.onNext(value)
-    socket.on(event, listener)
+let first = xs => xs[0]
 
-    return () => socket.removeListener(listener)
+let observableFromSocket = (sock, event) =>
+  Observable.create(observer => {
+    let listener = value => observer.onNext(value)
+    sock.on(event, listener)
+
+    return () => sock.removeListener(listener)
   })
 
 let Background = ({url, style}) => {
@@ -43,45 +46,6 @@ let Background = ({url, style}) => {
   )
 }
 
-let Track = ({track, time, URL}) => (
-  <View>
-    { !track
-      ? (
-        <View>
-          Geen liedje op het moment :(
-        </View>
-      ) : (
-        <View style={{ display: 'flex' }}>
-          <View>
-            { track.albumArtRef[0] &&
-              <img
-                src={track.albumArtRef[0].url}
-                style={{ height: 150 }}
-              />
-            }
-          </View>
-          <View
-            style={{
-              marginLeft: 20,
-              marginTop: 5,
-              flex: 1,
-              marginRight: 10,
-            }}
-          >
-            <View>
-              <b>{track.artist}</b><br />
-              {track.title}
-            </View>
-            <View style={{ flex: 1 }}>
-              <Player time={time} URL={URL} />
-            </View>
-          </View>
-        </View>
-      )
-    }
-  </View>
-)
-
 let Box = props => (
   <View {...props}>
     <View className={`${box}`}>
@@ -92,6 +56,7 @@ let Box = props => (
 
 export default compose(
   observeProps(props$ => {
+
     let info$ =
       observableFromSocket(socket, 'info')
       .scan((info, newInfo) =>
@@ -99,9 +64,11 @@ export default compose(
       , {})
     return {
       info: info$,
-      time: info$.distinctUntilChanged()
+      time: (
+        info$.distinctUntilChanged()
         .skip(1).map(x => Date.now())
-        .do(x => console.log('Changed!!')),
+        .do(x => console.log('Changed!!'))
+      ),
     }
   })
 )(props => {
@@ -119,42 +86,34 @@ export default compose(
   let audience = info && info.audience
 
   let playSpotify = function(data) {
-    search(data.name + " " + data.artists[0].name)();
-    var subscription = searchSocket.forEach(function(e) {
-      if (e[0]) {
-        playSong(e[0])();
+    search(data.name + ' ' + data.artists[0].name)();
+    var subscription = searchSocket.forEach(results => {
+      if (first(results)) {
+        playSong(first(results))();
         subscription.dispose();
       }
     })
   }
 
-  let updateMusic = function(spotifyId) {
-    fetch('https://api.spotify.com/v1/tracks/'+spotifyId)
-    .then(function(response) {
-      if (response.status !== 200) {
-          console.log('Failed to GET. Status Code: ' +
-            response.status);
-          return;
-        }
-        response.json().then(function(data) {
-            playSpotify(data);
-        });
-    });
+  let updateMusic = (spotifyId) => {
+    fetch('https://api.spotify.com/v1/tracks/' + spotifyId)
+    .then(response => response.json())
+    .then(data => playSpotify(data))
   }
 
-  let allowDrop = function(e) {
-    e.preventDefault();
+  let allowDrop = (event) => {
+    event.preventDefault();
   }
 
-  let getDropped = function(e) {
-    e.preventDefault();
-    var data = e.dataTransfer.getData("Text");
-    if (data.slice(8,20) !== "open.spotify") {
-      console.log("Invalid spotify link");
-      return false;
+  let getDropped = (event) => {
+    event.preventDefault()
+    var data = event.dataTransfer.getData('Text')
+    if (data.slice(8,20) !== 'open.spotify') {
+      console.log('Invalid spotify link')
+      return false
     }
-    //Slice is Spotify ID
-    updateMusic(data.slice(31));
+    // Slice is Spotify ID
+    updateMusic(data.slice(31))
   }
 
   return (

@@ -7,11 +7,11 @@ import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import MyRawTheme from '../components/Theme.js';
 import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
 
-import {compose, withState} from 'recompose'
+import {compose} from 'recompose'
 import {observeProps, createEventHandler} from 'rx-recompose'
 
 import {clickable} from '../style.css'
-import {View, Text, TextInput} from '../components'
+import {View} from '../components'
 
 let Search = compose(
   ThemeDecorator(ThemeManager.getMuiTheme(MyRawTheme)),
@@ -43,7 +43,7 @@ let Search = compose(
           query$
             .filter(x => x === '')
             .map(() => [])
-        )
+        ),
     }
   })
 )(({query, setQuery, searchResults, playSong, doSearch}) => (
@@ -55,7 +55,7 @@ let Search = compose(
       onEnterKeyDown={doSearch(query)}
       fullWidth={true}
       underlineStyle={{
-        borderWidth: 2
+        borderWidth: 2,
       }}
     />
 
@@ -65,7 +65,6 @@ let Search = compose(
             className={clickable}
             key={result.nid}
             onClick={() => {
-              console.log(result);
               playSong(result)()
               setQuery('')
             }}

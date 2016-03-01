@@ -22,7 +22,7 @@ let Favicon = class Favicon extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.url !== this.props.url) {
-      this.element.href = currentUrl;
+      this.element.href = this.props.url
     }
   }
 

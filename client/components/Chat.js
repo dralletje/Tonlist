@@ -8,8 +8,7 @@ import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import MyRawTheme from '../components/Theme.js';
 import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
 
-import {clickable} from '../style.css'
-import {Scroll, View, Text, TextInput} from '../components'
+import {Scroll, View, Text} from '../components'
 
 let messageId = 1
 let Chat = compose(
@@ -24,13 +23,16 @@ let Chat = compose(
         })].concat(messages.slice(0, 50))
       , []).startWith([])
       .map(xs => xs.slice().reverse()),
-  })),
-  withState('query', 'setQuery', ''),
-  withState('emotes', 'setEmotes', null),
-  lifecycle(x => {
+  }))
+,
+  withState('query', 'setQuery', '')
+,
+  withState('emotes', 'setEmotes', null)
+,
+  lifecycle(component => {
     fetch('https://twitchemotes.com/api_cache/v2/global.json')
     .then(x => x.json())
-    .then(x.props.setEmotes)
+    .then(component.props.setEmotes)
     .catch(() => alert('DOOD VERDERF AAAAAHHHHHHH'))
   }, () => {})
 )(({query, setQuery, chat, send, emotes}) => {
@@ -57,7 +59,7 @@ let Chat = compose(
         type="text"
         fullWidth={true}
         underlineStyle={{
-          borderWidth: 2
+          borderWidth: 2,
         }}
       />
       <Scroll

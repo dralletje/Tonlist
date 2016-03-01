@@ -1,7 +1,7 @@
 import React from 'react'
 import {Slider} from 'material-ui'
-import {compose, withState, mapProps} from 'recompose'
-import {Audio, View, Text, TextInput} from '../components'
+import {compose, withState} from 'recompose'
+import {Audio, View} from '../components'
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import MyRawTheme from '../components/Theme.js';
 import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
@@ -11,8 +11,10 @@ let bounds = (min, max, value) => {
 }
 
 let Player = compose(
-  ThemeDecorator(ThemeManager.getMuiTheme(MyRawTheme)),
-  withState('volume', 'setVolume', 0.2),
+  ThemeDecorator(ThemeManager.getMuiTheme(MyRawTheme))
+,
+  withState('volume', 'setVolume', 0.2)
+,
   withState('errorTag', 'setError', 0)
 )(({volume, setVolume, time, URL, setError, errorTag}) => {
   let onWheel = e => {
@@ -35,7 +37,7 @@ let Player = compose(
         value={volume}
         onChange={(e, value) => setVolume(value)}
         style={{
-          marginBottom: 24
+          marginBottom: 24,
         }}
       />
     </View>
